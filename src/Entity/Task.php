@@ -28,12 +28,12 @@ class Task
 
     #[ORM\ManyToOne(inversedBy: 'tasks')]
     #[ORM\JoinColumn(nullable: false)]
-    private ?project $associated_project = null;
+    private ?Project $associated_project = null;
 
     /**
      * @var Collection<int, user>
      */
-    #[ORM\ManyToMany(targetEntity: user::class, inversedBy: 'tasks')]
+    #[ORM\ManyToMany(targetEntity: User::class, inversedBy: 'tasks')]
     private Collection $associated_user;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
