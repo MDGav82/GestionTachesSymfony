@@ -4,14 +4,85 @@
         <meta charset="UTF-8">
         <title>{% block title %}Welcome!{% endblock %}</title>
         <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text><text y=%221.3em%22 x=%220.2em%22 font-size=%2276%22 fill=%22%23fff%22>sf</text></svg>">
-        {% block stylesheets %}
-        {% endblock %}
+
+        {# Ajouter du CSS personnalisé ici #}
+        <style>
+            /* Appliquer la police Calibri */
+            body {
+                font-family: 'Calibri', sans-serif;
+                background-color: #e3f2fd;  /* bleu clair */
+                margin: 0;
+                padding: 0;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                height: 100vh;
+                text-align: center;
+            }
+
+            /* Centrer le contenu à l'intérieur de chaque page */
+            .container {
+                max-width: 1200px;
+                width: 100%;
+                padding: 20px;
+            }
+
+            h1, h2, h3, p {
+                margin: 10px 0;
+            }
+
+            /* Amélioration de l'apparence des boutons et liens */
+            button, a {
+                text-decoration: none;
+                padding: 3px 8px;
+                background-color: #4CAF50; /* Vert */
+                color: white;
+                border: none;
+                border-radius: 5px;
+                cursor: pointer;
+                transition: background-color 0.3s ease;
+            }
+
+            button:hover, a:hover {
+                background-color: #45a049; /* Vert plus foncé */
+            }
+
+            /* Gérer la taille et l'espacement des tableaux */
+            table {
+                width: 100%;
+                margin: 20px 0;
+                border-collapse: collapse;
+            }
+
+            table, th, td {
+                border: 1px solid #ddd;
+            }
+
+            th, td {
+                padding: 10px;
+                text-align: left;
+            }
+
+            /* Ajout d'une bordure et d'un fond sur les lignes de tableau */
+            tr:nth-child(even) {
+                background-color: #f2f2f2;
+            }
+
+            tr:hover {
+                background-color: #ddd;
+            }
+
+        </style>
+
+        {% block stylesheets %}{% endblock %}
 
         {% block javascripts %}
             {% block importmap %}{{ importmap('app') }}{% endblock %}
         {% endblock %}
     </head>
     <body>
-        {% block body %}{% endblock %}
+        <div class="container">
+            {% block body %}{% endblock %}
+        </div>
     </body>
 </html>
