@@ -62,10 +62,14 @@ exit;
     #[Route('/{id}', name: 'app_task_show', methods: ['GET'])]
     public function show(Task $task): Response
     {
+        $project = $task->getAssociatedProject();
+
         return $this->render('task/show.html.twig', [
             'task' => $task,
+            'project' => $project,
         ]);
     }
+
 
     #[Route('/{id}/edit', name: 'app_task_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Task $task, EntityManagerInterface $entityManager): Response
