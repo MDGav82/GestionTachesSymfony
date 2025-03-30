@@ -6,7 +6,7 @@ dd
 # identifiant
 
 admin@example.com : 1234
-=======
+
 1. ◇ Créer son compte. -> Quentin  
 2. ◇ S’authentifier / se déconnecter. -> Quentin Fait
 3. ◇ Créer/Modifier/Supprimer ses tâches. -> Quentin 
