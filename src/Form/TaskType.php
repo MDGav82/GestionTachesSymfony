@@ -2,7 +2,7 @@
 
 namespace App\Form;
 
-use App\Entity\project;
+use App\Entity\Project ;
 use App\Entity\Task;
 use App\Entity\user;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
@@ -25,11 +25,11 @@ class TaskType extends AbstractType
                 'widget' => 'single_text',
             ])
             ->add('associated_project', EntityType::class, [
-                'class' => project::class,
+                'class' => Project::class,
                 'choice_label' => 'id',
             ])
             ->add('associated_user', EntityType::class, [
-                'class' => user::class,
+                'class' => User::class,
                 'choice_label' => 'id',
                 'multiple' => true,
             ])

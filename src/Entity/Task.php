@@ -28,12 +28,12 @@ class Task
 
     #[ORM\ManyToOne(inversedBy: 'tasks')]
     #[ORM\JoinColumn(nullable: false)]
-    private ?project $associated_project = null;
+    private ?Project $associated_project = null;
 
     /**
-     * @var Collection<int, user>
+     * @var Collection<int, User>
      */
-    #[ORM\ManyToMany(targetEntity: user::class, inversedBy: 'tasks')]
+    #[ORM\ManyToMany(targetEntity: User::class, inversedBy: 'tasks')]
     private Collection $associated_user;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
@@ -101,14 +101,14 @@ class Task
     }
 
     /**
-     * @return Collection<int, user>
+     * @return Collection<int, User>
      */
     public function getAssociatedUser(): Collection
     {
         return $this->associated_user;
     }
 
-    public function addAssociatedUser(user $associatedUser): static
+    public function addAssociatedUser(User $associatedUser): static
     {
         if (!$this->associated_user->contains($associatedUser)) {
             $this->associated_user->add($associatedUser);
@@ -117,7 +117,7 @@ class Task
         return $this;
     }
 
-    public function removeAssociatedUser(user $associatedUser): static
+    public function removeAssociatedUser(User $associatedUser): static
     {
         $this->associated_user->removeElement($associatedUser);
 
