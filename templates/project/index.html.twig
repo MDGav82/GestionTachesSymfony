@@ -1,41 +1,56 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Project index{% endblock %}
+{% block title %}Project index
+{% endblock %}
 
 {% block body %}
-    <h1>Project index</h1>
+	<h1>Project index :
+		{{last_username}}</h1>
 
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th>Name</th>
-                <th>Description</th>
-                <th>Start_date</th>
-                <th>End_date</th>
-                <th>actions</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for project in projects %}
-            <tr>
-                <td>{{ project.id }}</td>
-                <td>{{ project.name }}</td>
-                <td>{{ project.description }}</td>
-                <td>{{ project.startDate ? project.startDate|date('Y-m-d H:i:s') : '' }}</td>
-                <td>{{ project.endDate ? project.endDate|date('Y-m-d H:i:s') : '' }}</td>
-                <td>
-                    <a href="{{ path('app_project_show', {'id': project.id}) }}">show</a>
-                    <a href="{{ path('app_project_edit', {'id': project.id}) }}">edit</a>
-                </td>
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="6">no records found</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
+	{# {% if app.session.get('last_username') %}
+		<div class="alert alert-info">
+			Dernière tentative de connexion avec le nom d'utilisateur :
+			{{ app.session.get('last_username') }}
+		</div>
+	{% endif %} #}
+	{% if app.user %}
+		<div class="mb-3">
+			You are logged in as
+			{{ app.user.userIdentifier }},
+			<a href="{{ path('app_logout') }}">Logout</a>
+		</div>
+	{% endif %}
+	<table class="table">
+		<thead>
+			<tr>
+				<th>Id</th>
+				<th>Name</th>
+				<th>Description</th>
+				<th>Start_date</th>
+				<th>End_date</th>
+				<th>actions</th>
+			</tr>
+		</thead>
+		<tbody>
+			{% for project in projects %}
+				<tr>
+					<td>{{ project.id }}</td>
+					<td>{{ project.name }}</td>
+					<td>{{ project.description }}</td>
+					<td>{{ project.startDate ? project.startDate|date('Y-m-d H:i:s') : '' }}</td>
+					<td>{{ project.endDate ? project.endDate|date('Y-m-d H:i:s') : '' }}</td>
+					<td>
+						<a href="{{ path('app_project_show', {'id': project.id}) }}">show</a>
+						<a href="{{ path('app_project_edit', {'id': project.id}) }}">edit</a>
+					</td>
+				</tr>
+			{% else %}
+				<tr>
+					<td colspan="6">no records found</td>
+				</tr>
+			{% endfor %}
+		</tbody>
+	</table>
 
-    <a href="{{ path('app_project_new') }}">Create new</a>
+	<a href="{{ path('app_project_new') }}">Create new</a>
 {% endblock %}

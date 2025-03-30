@@ -5,20 +5,42 @@ namespace App\Controller;
 use App\Entity\Project;
 use App\Form\ProjectType;
 use App\Repository\ProjectRepository;
+use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
+use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 
 #[Route('/project')]
 final class ProjectController extends AbstractController
 {
     #[Route(name: 'app_project_index', methods: ['GET'])]
-    public function index(ProjectRepository $projectRepository): Response
+    public function index(AuthenticationUtils $authenticationUtils, ProjectRepository $projectRepository, SessionInterface $session, UserRepository $userRepository): Response
     {
+
+        // $lastUsername = $session->get('last_username', '');
+        // $error = $session->get('error', null);
+
+        // // Optionnel : Supprimer les valeurs après usage si elles ne sont plus nécessaires
+        // $session->remove('last_username');
+        // $session->remove('error');
+
+        $error = $authenticationUtils->getLastAuthenticationError();
+
+        // last username entered by the user
+        $lastUsername = $authenticationUtils->getLastUsername();
+
+        $user = $userRepository->findOneBy(['email' => $lastUsername]);
+        $projects = $user->getProjects();
+
+        
         return $this->render('project/index.html.twig', [
-            'projects' => $projectRepository->findAll(),
+            'projects' => $projects,
+            'last_username' => $lastUsername,
+            'error' => $error,
         ]);
     }
 
