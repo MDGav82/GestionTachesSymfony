@@ -1,0 +1,57 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}User index{% endblock %}
+
+{% block body %}
+<div class="container mx-auto px-4 sm:px-8">
+  <div class="py-8">
+    <h1 class="text-3xl font-bold mb-6">User index</h1>
+    <div class="overflow-x-auto">
+      <table class="min-w-full leading-normal shadow rounded-lg overflow-hidden">
+        <thead>
+          <tr>
+            <th class="px-5 py-3 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Id</th>
+            <th class="px-5 py-3 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Email</th>
+            <th class="px-5 py-3 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Roles</th>
+            <th class="px-5 py-3 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Password</th>
+            <th class="px-5 py-3 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Lastname</th>
+            <th class="px-5 py-3 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Firstname</th>
+            <th class="px-5 py-3 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Phone Number</th>
+            <th class="px-5 py-3 bg-gray-100 text-center text-xs font-semibold text-gray-600 uppercase tracking-wider">Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for user in users %}
+            <tr class="bg-white hover:bg-gray-50">
+              <td class="px-5 py-5 border-b border-gray-200 text-sm">{{ user.id }}</td>
+              <td class="px-5 py-5 border-b border-gray-200 text-sm">{{ user.email }}</td>
+              <td class="px-5 py-5 border-b border-gray-200 text-sm">
+                {{ user.roles ? user.roles|json_encode : '' }}
+              </td>
+              <td class="px-5 py-5 border-b border-gray-200 text-sm">{{ user.password }}</td>
+              <td class="px-5 py-5 border-b border-gray-200 text-sm">{{ user.lastname }}</td>
+              <td class="px-5 py-5 border-b border-gray-200 text-sm">{{ user.firstname }}</td>
+              <td class="px-5 py-5 border-b border-gray-200 text-sm">{{ user.phoneNumber }}</td>
+              <td class="px-5 py-5 border-b border-gray-200 text-sm text-center">
+                <a href="{{ path('app_user_show', {'id': user.id}) }}" class="text-indigo-600 hover:text-indigo-900 mr-2">Show</a>
+                <a href="{{ path('app_user_edit', {'id': user.id}) }}" class="text-indigo-600 hover:text-indigo-900">Edit</a>
+              </td>
+            </tr>
+          {% else %}
+            <tr>
+              <td colspan="8" class="px-5 py-5 border-b border-gray-200 text-sm text-center">
+                No records found
+              </td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+    <div class="mt-6">
+      <a href="{{ path('app_user_new') }}" class="bg-indigo-500 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded">
+        Create new
+      </a>
+    </div>
+  </div>
+</div>
+{% endblock %}
