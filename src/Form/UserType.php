@@ -28,12 +28,13 @@ class UserType extends AbstractType
             ->add('lastname')
             ->add('firstname')
             ->add('phone_number')
-            ->add('tasks', EntityType::class, [
-                'class' => Task::class,
-                'choice_label' => 'id',
-                'multiple' => true,
-            ])
+            
         ;
+        // ->add('tasks', EntityType::class, [
+        //     'class' => Task::class,
+        //     'choice_label' => 'id',
+        //     'multiple' => true,
+        // ]
     }
 
     public function configureOptions(OptionsResolver $resolver): void
