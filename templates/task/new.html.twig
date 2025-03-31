@@ -9,13 +9,13 @@
     {{ form_start(form, {'attr': {'class': 'space-y-6'}}) }}
 
     {% for child in form %}
-     
+      {% if child.vars.name != 'ss' %}
         <div>
           {{ form_label(child, null, {'label_attr': {'class': 'block text-gray-700'}}) }}
           {{ form_widget(child, {'attr': {'class': 'mt-1 block w-full border border-gray-300 rounded-md p-2 focus:outline-none focus:ring focus:border-indigo-500'}}) }}
           {{ form_errors(child) }}
         </div>
-   
+   {% endif %}
     {% endfor %}
 
     <div class="text-right">
@@ -27,4 +27,12 @@
     {{ form_end(form) }}
   </div>
 </div>
+
+    <script>
+        // Si le hash "#reloaded" n'est pas présent dans l'URL, on le rajoute et on recharge la page.
+        if (!window.location.hash) {
+            window.location.href = window.location.href + "#reloaded";
+            window.location.reload();
+        }
+    </script>
 {% endblock %}

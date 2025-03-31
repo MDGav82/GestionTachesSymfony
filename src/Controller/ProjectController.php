@@ -18,7 +18,7 @@ use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 #[Route('/project')]
 final class ProjectController extends AbstractController
 {
-    #[Route(name: 'app_project_index', methods: ['GET'])]
+    #[Route('/',name: 'app_project_index', methods: ['GET'])]
     public function index(AuthenticationUtils $authenticationUtils, ProjectRepository $projectRepository, SessionInterface $session, UserRepository $userRepository): Response
     {
 

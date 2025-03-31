@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Project;
 use App\Entity\Task;
 use App\Form\TaskType;
 use App\Repository\ProjectRepository;
@@ -24,21 +25,30 @@ final class TaskController extends AbstractController
         ]);
     }
 
-    #[Route("/project/{id}", name: 'app_task_project', methods: ['GET'])]
-    public function taskByProjects(ProjectRepository $projectRepository, TaskRepository $taskRepository, Request $request): Response
+    #[Route("/project/{id}", name: 'app_task_project', methods: ['GET','POST'])]
+    public function taskByProjects(Request $request, ProjectRepository $projectRepository,TaskRepository $taskRepository): Response
     {
-
         $id = $request->attributes->get('id');
 
-        $project =  $projectRepository->find($id);
-        $tasks = $taskRepository->findBy(["associated_project" => $id]);
+        // Récupération du projet et des tâches correspondantes
+        $project = $projectRepository->find($id);
+        $tasks = $taskRepository->findBy([
+            "associated_project" => $id
+        ]);
 
+        // Création d'une nouvelle tâche par exemple
+        $task = new Task();
 
+        // Passage de l'utilisateur connecté dans le formulaire
+        $form = $this->createForm(TaskType::class, $task, [
+            'current_user' => $this->getUser(),
+        ]);
 
         return $this->render('task/index.html.twig', [
             'tasks' => $tasks,
             'project' => $project,
-            'id' => $id
+            'id' => $id,
+            'form' => $form->createView(),
         ]);
     }
 

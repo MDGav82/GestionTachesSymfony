@@ -22,7 +22,10 @@ class TaskType extends AbstractType
     {
         // Récupération de l'utilisateur connecté passé en option
         $currentUser = $options['current_user'];
-
+       
+      
+      
+        
         $builder
             ->add('name')
             ->add('state', ChoiceType::class, [

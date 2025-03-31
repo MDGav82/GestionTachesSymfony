@@ -11,6 +11,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\Session;
@@ -21,6 +22,12 @@ use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 class SecurityController extends AbstractController
 {
+    #[Route(path: '/', name: 'app_homepage')]
+    public function index(): RedirectResponse
+    {
+        return $this->redirectToRoute('app_login');
+    }
+
     #[Route(path: '/login', name: 'app_login')]
     public function login(SessionInterface $sessionInterface,AuthenticationUtils $authenticationUtils, Request $request, UserRepository $userRepository): Response
     {
@@ -30,15 +37,16 @@ class SecurityController extends AbstractController
         // last username entered by the user
         $lastUsername = $authenticationUtils->getLastUsername();
 
-
+        $user = $userRepository->findOneBy(['email' => $lastUsername]);
+        
         // $error = $authenticationUtils->getLastAuthenticationError();
         // $lastUsername = $authenticationUtils->getLastUsername();
 
         // // Stocker les données en session
         // $session->set('last_username', $lastUsername);
         // $session->set('error', $error ? $error->getMessage() : null);
-        if ($lastUsername != "") {
-
+        if ($user != null ) {
+         
             return $this->redirectToRoute('app_project_index');
 
         } else {
@@ -90,7 +98,7 @@ class SecurityController extends AbstractController
             $entityManager->flush();
 
             // Redirection vers la page de login (ou une autre page)
-            return $this->redirectToRoute('app_login');
+            return $this->redirectToRoute('app_logout');
         }
 
         return $this->render('security/register.html.twig', [
@@ -117,4 +125,6 @@ class SecurityController extends AbstractController
 
         throw new \LogicException('This method can be blank - it will be intercepted by the logout key on your firewall.');
     }
+
+   
 }
