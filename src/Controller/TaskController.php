@@ -22,6 +22,35 @@ final class TaskController extends AbstractController
         ]);
     }
 
+    #[Route("/project/{id}",name: 'app_task_project', methods: ['GET'])]
+    public function taskByProjects(TaskRepository $taskRepository, Request $request): Response
+    {
+        
+        $id = $request->attributes->get('id');
+
+       $tasks = $taskRepository->findBy(["associated_project"=> $id]);
+
+        return $this->render('task/index.html.twig', [
+            'tasks' => $tasks,
+            'id' => $id
+        ]);
+    }
+
+    #[Route("/project/state",name: 'app_task_project', methods: ['GET'])]
+    public function state(TaskRepository $taskRepository, Request $request): Response
+    {
+        
+        $id = $request->attributes->get('id');
+
+       $tasks = $taskRepository->findBy(["associated_project"=> $id]);
+
+        return $this->render('task/index.html.twig', [
+            'tasks' => $tasks,
+            'id' => $id
+        ]);
+    }
+
+
     #[Route('/new', name: 'app_task_new', methods: ['GET', 'POST'])]
     public function new(Request $request, EntityManagerInterface $entityManager): Response
     {

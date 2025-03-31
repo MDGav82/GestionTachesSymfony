@@ -2,9 +2,14 @@
 Projet PHP utilisant Symphony et Twig
 dd
 
-1. ◇ Créer son compte. -> Quentin 
-2. ◇ S’authentifier / se déconnecter. -> Quentin
-3. ◇ Créer/Modifier/Supprimer ses tâches. -> Quentin
+
+# identifiant
+
+admin@example.com : 1234
+
+1. ◇ Créer son compte. -> Quentin  
+2. ◇ S’authentifier / se déconnecter. -> Quentin Fait
+3. ◇ Créer/Modifier/Supprimer ses tâches. -> Quentin 
 4. ◇ Visualiser la liste des tâches d’un projet. -> Valentin
 5. ◇ Marquer ses tâches comme "A faire", "En cours" ou "Terminée". -> Quentin
 6. ◇ Indiquer le pourcentage réalisé pour chaque tâche (100% = tâche terminée). -> Quentin
@@ -15,6 +20,7 @@ dd
 11. ◇ Définir les tâches des projets dont il est responsable. -> Valentin
 12. ◇ Partager ses tâches avec d'autres utilisateurs.-> Valentin
 13. ◇ Avertir par mail les utilisateurs concernés lors d’un partage de tâches.
+14.  Projet attribué à chaque utilisateur Fait
 
 Quentin -> utilisateurs
 Valentin -> projets
