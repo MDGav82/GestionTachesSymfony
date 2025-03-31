@@ -9,6 +9,7 @@ use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: TaskRepository::class)]
+
 class Task
 {
     #[ORM\Id]
@@ -146,5 +147,19 @@ class Task
         $this->end_date = $end_date;
 
         return $this;
+    }
+
+
+    public function updateProgressPercentage(): void
+    {
+        // Exemple de logique : pending = 50, completed = 100, sinon 0 (ou une autre valeur par défaut)
+        if ($this->state === 'in_progress') {
+            $this->progress_percent = 50;
+        } elseif ($this->state === 'completed') {
+            $this->progress_percent = 100;
+        } else {
+            $this->progress_percent = 0;
+        }
+        
     }
 }

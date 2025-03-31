@@ -28,7 +28,8 @@
         </thead>
         <tbody>
           {% for project in projects %}
-            <tr onclick="window.location.href='{{ path('app_task_project', {'id': project.id}) }}'" class="cursor-pointer bg-white hover:bg-gray-100">
+          {# window.location.href='{{ path('app_task_project', {'id': project.id}) }}' #}
+            <tr onclick="" class="cursor-pointer bg-white hover:bg-gray-100">
               <td class="px-5 py-5 border-b border-gray-200 text-sm">{{ project.id }}</td>
               <td class="px-5 py-5 border-b border-gray-200 text-sm">{{ project.name }}</td>
               <td class="px-5 py-5 border-b border-gray-200 text-sm">{{ project.description }}</td>
