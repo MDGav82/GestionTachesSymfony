@@ -2,10 +2,11 @@
 Projet PHP utilisant Symphony et Twig
 
 # Mise en place
-1. git clone
-2. composer install
-3. symfony serve
-4. URL: localhost/login
+1. (CMD) git clone
+2. (CODE) changer le DATABASE_URL du .env
+3. (CMD) composer install
+4. (CMD) symfony serve
+5. (URL) localhost/login
 
 # identifiant
 
