@@ -28,9 +28,7 @@ final class TaskController extends AbstractController
         
         $id = $request->attributes->get('id');
 
-var_dump($id);
-exit;
-       $tasks = $taskRepository->findOneBy(["associated_project_id"=> $id]);
+       $tasks = $taskRepository->findBy(["associated_project"=> $id]);
 
         return $this->render('task/index.html.twig', [
             'tasks' => $tasks,
