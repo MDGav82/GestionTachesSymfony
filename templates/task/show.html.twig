@@ -48,7 +48,7 @@
         </table>
 
         <div class="mt-4 flex space-x-4">
-            <a href="{{ path('app_task_index') }}" class="px-4 py-2 bg-gray-600 text-white rounded-lg hover:bg-gray-700">Back to Task List</a>
+            <a href="{{ path('app_task_project',{'id':project.id}) }}" class="px-4 py-2 bg-gray-600 text-white rounded-lg hover:bg-gray-700">Back to Task List</a>
             <a href="{{ path('app_task_edit', {'id': task.id}) }}" class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700">Edit</a>
         </div>
 
