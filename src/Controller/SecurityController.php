@@ -2,13 +2,21 @@
 
 namespace App\Controller;
 
+use App\Entity\User;
+
+use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Doctrine\ORM\EntityManagerInterface;
 use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Form\Extension\Core\Type\EmailType;
+use Symfony\Component\Form\Extension\Core\Type\PasswordType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 class SecurityController extends AbstractController
 {
@@ -38,6 +46,54 @@ class SecurityController extends AbstractController
 
             ]);
         }
+    }
+
+    #[Route('/register', name: 'app_register')]
+    public function register(Request $request, EntityManagerInterface $entityManager, UserPasswordHasherInterface $passwordHasher): Response
+    {
+        $user = new User();
+
+        // Création du formulaire d'inscription
+        $form = $this->createFormBuilder($user)
+            ->add('firstname', TextType::class, [
+                'label' => 'Prénom'
+            ])
+            ->add('lastname', TextType::class, [
+                'label' => 'Nom'
+            ])
+            ->add('email', EmailType::class, [
+                'label' => 'Adresse email'
+            ])
+            ->add('phone_number', TextType::class, [
+                'label' => 'Téléphone'
+            ])
+            ->add('password', PasswordType::class, [
+                'label' => 'Mot de passe'
+            ])
+            ->add('register', SubmitType::class, [
+                'label' => 'S\'inscrire'
+            ])
+            ->getForm();
+
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            // Récupération et hashage du mot de passe
+            $plaintextPassword = $form->get('password')->getData();
+            $hashedPassword = $passwordHasher->hashPassword($user, $plaintextPassword);
+            $user->setPassword($hashedPassword);
+
+            // Persistance en base de données
+            $entityManager->persist($user);
+            $entityManager->flush();
+
+            // Redirection vers la page de login (ou une autre page)
+            return $this->redirectToRoute('app_login');
+        }
+
+        return $this->render('security/register.html.twig', [
+            'registrationForm' => $form->createView(),
+        ]);
     }
 
     // #[Route(path: '/logged', name: 'app_logged')]

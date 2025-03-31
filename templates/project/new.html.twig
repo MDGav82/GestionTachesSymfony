@@ -3,9 +3,23 @@
 {% block title %}New Project{% endblock %}
 
 {% block body %}
-    <h1>Create new Project</h1>
+<div class="min-h-screen flex items-center justify-center  py-12 px-4 sm:px-6 lg:px-8">
+    <div class="max-w-lg w-full space-y-8">
+        <div>
+            <h1 class="mt-6 text-center text-3xl font-extrabold text-gray-900">
+                Create new Project
+            </h1>
+        </div>
 
-    {{ include('project/_form.html.twig') }}
+        <div class="bg-white p-8 rounded-lg shadow">
+            {{ include('project/_form.html.twig') }}
+        </div>
 
-    <a href="{{ path('app_project_index') }}">back to list</a>
+        <div class="text-center">
+            <a href="{{ path('app_project_index') }}" class="text-indigo-600 hover:text-indigo-500">
+                back to list
+            </a>
+        </div>
+    </div>
+</div>
 {% endblock %}
