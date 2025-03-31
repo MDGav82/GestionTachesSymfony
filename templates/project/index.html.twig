@@ -1,12 +1,12 @@
 {% extends 'base.html.twig' %}
-
+ 
 {% block title %}Project index{% endblock %}
-
+ 
 {% block body %}
 <div class="container mx-auto px-4 sm:px-8">
   <div class="py-8">
     <h1 class="text-3xl font-bold mb-6">Project index : {{ last_username }}</h1>
-
+ 
     <div class="overflow-x-auto">
       <table class="min-w-full leading-normal shadow rounded-lg overflow-hidden">
         <thead>
@@ -36,7 +36,7 @@
                 <a href="{{ path('app_project_edit', {'id': project.id}) }}" class="text-indigo-600 hover:text-indigo-900 mr-2">Edit</a>
                 <!-- Lien pour supprimer -->
                 <a href="#" class="text-red-600 hover:text-red-900" onclick="event.preventDefault(); document.getElementById('delete-form-{{ project.id }}').submit();">Delete</a>
-
+ 
                 <!-- Formulaire de suppression, caché -->
                 <form id="delete-form-{{ project.id }}" action="{{ path('app_project_delete', {'id': project.id}) }}" method="post" style="display: none;">
                   <input type="hidden" name="csrf_token" value="{{ csrf_token('delete' ~ project.id) }}">
@@ -53,13 +53,13 @@
         </tbody>
       </table>
     </div>
-
+ 
     <div class="mt-6 flex space-x-4">
       <!-- Create New Project Button -->
       <a href="{{ path('app_project_new') }}" class="bg-indigo-500 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded">
         Create new
       </a>
-
+ 
       <!-- Logout Button -->
       <a href="{{ path('app_logout') }}" class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">
         Logout
@@ -68,3 +68,5 @@
   </div>
 </div>
 {% endblock %}
+ 
+ 
