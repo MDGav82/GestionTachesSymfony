@@ -1,25 +1,31 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}New Project{% endblock %}
+{% block title %}Formulaire Project{% endblock %}
 
 {% block body %}
-<div class="min-h-screen flex items-center justify-center  py-12 px-4 sm:px-6 lg:px-8">
-    <div class="max-w-lg w-full space-y-8">
+<div class="min-h-screen flex items-center justify-center">
+  <div class="w-full max-w-lg bg-white p-8 rounded shadow">
+    <h1 class="text-2xl font-bold mb-6 text-center">Formulaire Project</h1>
+    {{ form_start(form, {'attr': {'class': 'space-y-6'}}) }}
+
+    {# Parcours de chaque champ, exclusion du champ "progress porcent" #}
+    {% for child in form %}
+      {% if child.vars.name != 'Token' %}
         <div>
-            <h1 class="mt-6 text-center text-3xl font-extrabold text-gray-900">
-                Create new Project
-            </h1>
+          {{ form_label(child, null, {'label_attr': {'class': 'block text-gray-700'}}) }}
+          {{ form_widget(child, {'attr': {'class': 'mt-1 block w-full border border-gray-300 rounded-md p-2 focus:outline-none focus:ring focus:border-indigo-500'}}) }}
+          {{ form_errors(child) }}
         </div>
+      {% endif %}
+    {% endfor %}
 
-        <div class="bg-white p-8 rounded-lg shadow">
-            {{ include('project/_form.html.twig') }}
-        </div>
-
-        <div class="text-center">
-            <a href="{{ path('app_project_index') }}" class="text-indigo-600 hover:text-indigo-500">
-                back to list
-            </a>
-        </div>
+    <div class="text-right">
+      <button type="submit" class="bg-indigo-600 text-white px-4 py-2 rounded hover:bg-indigo-700 transition duration-200">
+        Enregistrer
+      </button>
     </div>
+
+    {{ form_end(form) }}
+  </div>
 </div>
 {% endblock %}

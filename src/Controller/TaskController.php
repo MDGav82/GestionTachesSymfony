@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Task;
 use App\Form\TaskType;
+use App\Repository\ProjectRepository;
 use App\Repository\TaskRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -24,17 +25,19 @@ final class TaskController extends AbstractController
     }
 
     #[Route("/project/{id}", name: 'app_task_project', methods: ['GET'])]
-    public function taskByProjects(TaskRepository $taskRepository, Request $request): Response
+    public function taskByProjects(ProjectRepository $projectRepository,TaskRepository $taskRepository, Request $request): Response
     {
 
         $id = $request->attributes->get('id');
 
+        $project =  $projectRepository->find($id);
         $tasks = $taskRepository->findBy(["associated_project" => $id]);
 
-        
+       
 
         return $this->render('task/index.html.twig', [
-            'tasks' => $tasks[0],
+            'tasks' => $tasks,
+            'project'=> $project,
             'id' => $id
         ]);
     }
