@@ -9,10 +9,10 @@ admin@example.com : 1234
 
 1. ◇ Créer son compte. -> Quentin  
 2. ◇ S’authentifier / se déconnecter. -> Quentin Fait
-3. ◇ Créer/Modifier/Supprimer ses tâches. -> Quentin 
-4. ◇ Visualiser la liste des tâches d’un projet. -> Valentin
-5. ◇ Marquer ses tâches comme "A faire", "En cours" ou "Terminée". -> Quentin
-6. ◇ Indiquer le pourcentage réalisé pour chaque tâche (100% = tâche terminée). -> Quentin
+3. ◇ Créer/Modifier/Supprimer ses tâches. -> Valentin FAIT
+4. ◇ Visualiser la liste des tâches d’un projet. -> Quentin FAIT
+5. ◇ Marquer ses tâches comme "A faire", "En cours" ou "Terminée". -> Quentin FAIT
+6. ◇ Indiquer le pourcentage réalisé pour chaque tâche (100% = tâche terminée). -> Quentin FAIT
 7. ◇ Filtrer ses tâches par état (A faire/Terminée/En cours). -> Quentin
 8. ◇ Filtrer ses tâches par pourcentage réalisé. -> Quentin
 9. ◇ Créer un projet. -> Valentin 
