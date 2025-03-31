@@ -31,8 +31,10 @@ final class TaskController extends AbstractController
 
         $tasks = $taskRepository->findBy(["associated_project" => $id]);
 
+        
+
         return $this->render('task/index.html.twig', [
-            'tasks' => $tasks,
+            'tasks' => $tasks[0],
             'id' => $id
         ]);
     }
@@ -60,10 +62,11 @@ final class TaskController extends AbstractController
     }
 
 
-    #[Route('/new', name: 'app_task_new', methods: ['GET', 'POST'])]
+    #[Route('/new/{id}', name: 'app_task_new', methods: ['GET', 'POST'])]
     public function new(Request $request, EntityManagerInterface $entityManager): Response
     {
         $task = new Task();
+        $id = $request->attributes->get("id");
         $form = $this->createForm(TaskType::class, $task);
         $form->handleRequest($request);
 
@@ -71,10 +74,11 @@ final class TaskController extends AbstractController
             $entityManager->persist($task);
             $entityManager->flush();
 
-            return $this->redirectToRoute('app_task_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('app_task_project', ['id' => $id], Response::HTTP_SEE_OTHER);
         }
 
         return $this->render('task/new.html.twig', [
+            'id'=>$id,
             'task' => $task,
             'form' => $form,
         ]);

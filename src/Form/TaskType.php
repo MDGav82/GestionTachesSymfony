@@ -1,14 +1,18 @@
-<?php
+<?php 
 
 namespace App\Form;
 
-use App\Entity\Project ;
+use App\Entity\Project;
 use App\Entity\Task;
-use App\Entity\user;
+use App\Entity\User;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\FormEvent;
+use Symfony\Component\Form\FormEvents;
 
 class TaskType extends AbstractType
 {
@@ -16,8 +20,17 @@ class TaskType extends AbstractType
     {
         $builder
             ->add('name')
-            ->add('state')
-            ->add('progress_percent')
+            ->add('state', ChoiceType::class, [
+                'choices'  => [
+                    'Pending'      => 'pending',
+                    'In Progress'  => 'in_progress',
+                    'Completed'    => 'completed',
+                ],
+            ])
+            // On déclare progress_percent comme champ caché et non mappé pour ignorer toute donnée saisie
+            ->add('progress_percent', HiddenType::class, [
+                'mapped' => false,
+            ])
             ->add('start_date', null, [
                 'widget' => 'single_text',
             ])
@@ -26,14 +39,33 @@ class TaskType extends AbstractType
             ])
             ->add('associated_project', EntityType::class, [
                 'class' => Project::class,
-                'choice_label' => 'id',
+                // D'après vos fichiers, la propriété "name" contient le nom du projet
+                'choice_label' => 'name',
             ])
             ->add('associated_user', EntityType::class, [
                 'class' => User::class,
-                'choice_label' => 'id',
+                // D'après vos fichiers, la propriété "username" contient le nom de l'utilisateur
+                'choice_label' => 'email',
                 'multiple' => true,
             ])
         ;
+
+        // Ajout d'un écouteur d'événement pour définir automatiquement progress_percent
+        $builder->addEventListener(FormEvents::POST_SUBMIT, function(FormEvent $event) {
+            /** @var Task $task */
+            $task = $event->getData();
+            switch ($task->getState()) {
+                case 'pending':
+                    $task->setProgressPercent(0);
+                    break;
+                case 'in_progress':
+                    $task->setProgressPercent(50);
+                    break;
+                case 'completed':
+                    $task->setProgressPercent(100);
+                    break;
+            }
+        });
     }
 
     public function configureOptions(OptionsResolver $resolver): void

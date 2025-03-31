@@ -8,6 +8,13 @@ Projet PHP utilisant Symphony et Twig
 4. (CMD) symfony serve
 5. (URL) localhost/login
 
+creer un compte 
+
+allez /logout
+
+connectez-vous avec votre compte
+
+
 # identifiant
 
 1. ◇ Créer son compte. -> Quentin  
@@ -27,3 +34,5 @@ Projet PHP utilisant Symphony et Twig
 
 Quentin -> utilisateurs
 Valentin -> projets
+
+
