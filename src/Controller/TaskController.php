@@ -2,8 +2,10 @@
 
 namespace App\Controller;
 
+use App\Entity\Project;
 use App\Entity\Task;
 use App\Form\TaskType;
+use App\Repository\ProjectRepository;
 use App\Repository\TaskRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -23,17 +25,30 @@ final class TaskController extends AbstractController
         ]);
     }
 
-    #[Route("/project/{id}", name: 'app_task_project', methods: ['GET'])]
-    public function taskByProjects(TaskRepository $taskRepository, Request $request): Response
+    #[Route("/project/{id}", name: 'app_task_project', methods: ['GET','POST'])]
+    public function taskByProjects(Request $request, ProjectRepository $projectRepository,TaskRepository $taskRepository): Response
     {
-
         $id = $request->attributes->get('id');
 
-        $tasks = $taskRepository->findBy(["associated_project" => $id]);
+        // Récupération du projet et des tâches correspondantes
+        $project = $projectRepository->find($id);
+        $tasks = $taskRepository->findBy([
+            "associated_project" => $id
+        ]);
+
+        // Création d'une nouvelle tâche par exemple
+        $task = new Task();
+
+        // Passage de l'utilisateur connecté dans le formulaire
+        $form = $this->createForm(TaskType::class, $task, [
+            'current_user' => $this->getUser(),
+        ]);
 
         return $this->render('task/index.html.twig', [
             'tasks' => $tasks,
-            'id' => $id
+            'project' => $project,
+            'id' => $id,
+            'form' => $form->createView(),
         ]);
     }
 
@@ -50,9 +65,9 @@ final class TaskController extends AbstractController
 
         $task->setState($state);
         $task->updateProgressPercentage();
-     
+
         $entityManager->flush();
-        
+
 
         return $this->redirectToRoute('app_task_project', ['id' => $idProject], Response::HTTP_SEE_OTHER);
 
@@ -60,21 +75,28 @@ final class TaskController extends AbstractController
     }
 
 
-    #[Route('/new', name: 'app_task_new', methods: ['GET', 'POST'])]
+    #[Route('/new/{id}', name: 'app_task_new', methods: ['GET', 'POST'])]
     public function new(Request $request, EntityManagerInterface $entityManager): Response
     {
         $task = new Task();
-        $form = $this->createForm(TaskType::class, $task);
+        $id = $request->attributes->get("id");
+        // Dans votre contrôleur
+    
+        $form = $this->createForm(TaskType::class, $task, [
+            'current_user' => $this->getUser(),
+        ]);
+
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager->persist($task);
             $entityManager->flush();
 
-            return $this->redirectToRoute('app_task_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('app_task_project', ['id' => $id,'user' => $this->getUser()], Response::HTTP_SEE_OTHER);
         }
 
         return $this->render('task/new.html.twig', [
+            'id' => $id,
             'task' => $task,
             'form' => $form,
         ]);
@@ -95,7 +117,11 @@ final class TaskController extends AbstractController
     #[Route('/{id}/edit', name: 'app_task_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Task $task, EntityManagerInterface $entityManager): Response
     {
-        $form = $this->createForm(TaskType::class, $task);
+        // Dans votre contrôleur
+        $form = $this->createForm(TaskType::class, $task, [
+            'current_user' => $this->getUser(), // ou la méthode adaptée pour récupérer l'utilisateur connecté
+        ]);
+
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -110,14 +136,15 @@ final class TaskController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}', name: 'app_task_delete', methods: ['POST'])]
+    #[Route('/{idProject}/{id}', name: 'app_task_delete', methods: ['POST'])]
     public function delete(Request $request, Task $task, EntityManagerInterface $entityManager): Response
     {
+        $idProject=$request->attributes->get('idProject');
         if ($this->isCsrfTokenValid('delete' . $task->getId(), $request->getPayload()->getString('_token'))) {
             $entityManager->remove($task);
             $entityManager->flush();
         }
 
-        return $this->redirectToRoute('app_task_index', [], Response::HTTP_SEE_OTHER);
+        return $this->redirectToRoute('app_task_project', ['id'=>$idProject], Response::HTTP_SEE_OTHER);
     }
 }

@@ -1,11 +1,38 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}New Task{% endblock %}
+{% block title %}Formulaire TaskType{% endblock %}
 
 {% block body %}
-    <h1>Create new Task</h1>
+<div class="min-h-screen flex items-center justify-center ">
+  <div class="w-full max-w-lg bg-white p-8 rounded shadow">
+    <h1 class="text-2xl font-bold mb-6 text-center">Formulaire TaskType</h1>
+    {{ form_start(form, {'attr': {'class': 'space-y-6'}}) }}
 
-    {{ include('task/_form.html.twig') }}
+    {% for child in form %}
+      {% if child.vars.name != 'ss' %}
+        <div>
+          {{ form_label(child, null, {'label_attr': {'class': 'block text-gray-700'}}) }}
+          {{ form_widget(child, {'attr': {'class': 'mt-1 block w-full border border-gray-300 rounded-md p-2 focus:outline-none focus:ring focus:border-indigo-500'}}) }}
+          {{ form_errors(child) }}
+        </div>
+   {% endif %}
+    {% endfor %}
 
-    <a href="{{ path('app_task_index') }}">back to list</a>
+    <div class="text-right">
+      <button type="submit" class="bg-indigo-600 text-white px-4 py-2 rounded hover:bg-indigo-700 transition duration-200">
+        Enregistrer
+      </button>
+    </div>
+
+    {{ form_end(form) }}
+  </div>
+</div>
+
+    <script>
+        // Si le hash "#reloaded" n'est pas présent dans l'URL, on le rajoute et on recharge la page.
+        if (!window.location.hash) {
+            window.location.href = window.location.href + "#reloaded";
+            window.location.reload();
+        }
+    </script>
 {% endblock %}

@@ -24,7 +24,8 @@ class ProjectType extends AbstractType
             ])
             ->add('manager', EntityType::class, [
                 'class' => User::class,
-                'choice_label' => 'id',
+                // Afficher le nom d'utilisateur du manager au lieu de son identifiant
+                'choice_label' => 'email',
             ])
         ;
     }
