@@ -1,56 +1,60 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Project Details{% endblock %}
+{% block title %}Project Details
+{% endblock %}
 
 {% block body %}
-    <div class="max-w-3xl mx-auto p-6 bg-white shadow-lg rounded-lg">
-        <h1 class="text-2xl font-bold text-gray-800 mb-4">Project Details</h1>
+	<div class="max-w-3xl mx-auto p-6  shadow-lg rounded-lg">
+		<h1 class="text-2xl font-bold text-gray-800 mb-4">Project Details</h1>
 
-        <table class="w-full border-collapse border border-gray-300 rounded-lg">
-            <tbody class="divide-y divide-gray-200">
-                <tr>
-                    <th class="p-2 text-left bg-gray-100">Id</th>
-                    <td class="p-2">{{ project.id }}</td>
-                </tr>
-                <tr>
-                    <th class="p-2 text-left bg-gray-100">Name</th>
-                    <td class="p-2">{{ project.name }}</td>
-                </tr>
-                <tr>
-                    <th class="p-2 text-left bg-gray-100">Description</th>
-                    <td class="p-2">{{ project.description }}</td>
-                </tr>
-                <tr>
-                    <th class="p-2 text-left bg-gray-100">Start Date</th>
-                    <td class="p-2">{{ project.startDate ? project.startDate|date('Y-m-d H:i:s') : 'N/A' }}</td>
-                </tr>
-                <tr>
-                    <th class="p-2 text-left bg-gray-100">End Date</th>
-                    <td class="p-2">{{ project.endDate ? project.endDate|date('Y-m-d H:i:s') : 'N/A' }}</td>
-                </tr>
-            </tbody>
-        </table>
+		<table class="w-full border-collapse border border-gray-300 rounded-lg">
+			<tbody class="divide-y divide-gray-200">
+				<tr>
+					<th class="p-2 text-left bg-gray-100">Id</th>
+					<td class="p-2">{{ project.id }}</td>
+				</tr>
+				<tr>
+					<th class="p-2 text-left bg-gray-100">Name</th>
+					<td class="p-2">{{ project.name }}</td>
+				</tr>
+				<tr>
+					<th class="p-2 text-left bg-gray-100">Description</th>
+					<td class="p-2">{{ project.description }}</td>
+				</tr>
+				<tr>
+					<th class="p-2 text-left bg-gray-100">Start Date</th>
+					<td class="p-2">{{ project.startDate ? project.startDate|date('Y-m-d H:i:s') : 'N/A' }}</td>
+				</tr>
+				<tr>
+					<th class="p-2 text-left bg-gray-100">End Date</th>
+					<td class="p-2">{{ project.endDate ? project.endDate|date('Y-m-d H:i:s') : 'N/A' }}</td>
+				</tr>
+			</tbody>
+		</table>
 
-        <h3 class="text-xl font-semibold text-gray-800 mt-6">Associated Tasks</h3>
-        <ul class="mt-2 space-y-2">
-            {% for task in project.tasks %}
-                <li>
-                    <a href="{{ path('app_task_show', {'id': task.id}) }}" class="text-blue-500 hover:underline">
-                        Task: {{ task.name }}
-                    </a>
-                </li>
-            {% else %}
-                <li class="text-gray-600">No associated tasks</li>
-            {% endfor %}
-        </ul>
+		<h3 class="text-xl font-semibold text-gray-800 mt-6">Associated Tasks</h3>
+		<ul class="mt-2 space-y-2">
+			{% for task in project.tasks %}
+				<li>
+					<a href="{{ path('app_task_show', {'id': task.id}) }}" class="text-blue-500 hover:underline">
+						Task:
+						{{ task.name }}
+					</a>
+				</li>
+			{% else %}
+				<li class="text-gray-600">No associated tasks</li>
+			{% endfor %}
+		</ul>
 
-        <div class="mt-4 flex space-x-4">
-            <a href="{{ path('app_project_index',{'id':project.id}) }}" class="px-4 py-2 bg-gray-600 text-white rounded-lg hover:bg-gray-700">Back to Project List</a>
-            <a href="{{ path('app_project_edit', {'id': project.id}) }}" class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700">Edit</a>
-        </div>
+		<div class="mt-4 flex space-x-4">
+			<a href="{{ path('app_project_index',{'id':project.id}) }}" class="px-4 py-2 bg-gray-600 text-white rounded-lg hover:bg-gray-700">Back to Project List</a>
+			{# <a href="{{ path('app_project_edit', {'id': project.id}) }}" class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700">Edit</a> #}
+		</div>
 
-        <div class="mt-4">
-            {{ include('project/_delete_form.html.twig') }}
-        </div>
-    </div>
+		{# <div class="mt-4">
+			<form id="delete-form-{{ project.id }}" action="{{ path('app_project_delete', {'id': project.id}) }}" method="post" style="display: none;">
+				<input type="hidden" name="csrf_token" value="{{ csrf_token('delete' ~ project.id) }}">
+			</form>
+		</div> #}
+	</div>
 {% endblock %}

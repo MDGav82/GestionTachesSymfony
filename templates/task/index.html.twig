@@ -58,8 +58,8 @@
 								</td>
 								<td class="px-5 py-5 border-b border-gray-200 text-sm text-center">
 									<a href="{{ path('app_task_show', {'id': task.id}) }}" class="text-indigo-600 hover:text-indigo-900 mr-2">Show</a>
-									<a href="{{ path('app_task_edit', {'id': task.id}) }}" class="text-indigo-600 hover:text-indigo-900 mr-2">Edit</a>
-									<form action="{{ path('app_task_delete', {'id': task.id}) }}" method="post" style="display:inline;">
+									{# <a href="{{ path('app_task_edit', {'id': task.id}) }}" class="text-indigo-600 hover:text-indigo-900 mr-2">Edit</a> #}
+									<form action="{{ path('app_task_delete', {'id': task.id, 'idProject': project.id}) }}" method="post" style="display:inline;">
 										<input type="hidden" name="_token" value="{{ csrf_token('delete' ~ task.id) }}">
 										<button type="submit" class="text-red-600 hover:text-red-900">Delete</button>
 									</form>
