@@ -3,12 +3,11 @@
 {% block title %}Formulaire TaskType{% endblock %}
 
 {% block body %}
-<div class="min-h-screen flex items-center justify-center ">
+<div class="min-h-screen flex items-center justify-center bg-gray-100">
   <div class="w-full max-w-lg bg-white p-8 rounded shadow">
     <h1 class="text-2xl font-bold mb-6 text-center">Formulaire TaskType</h1>
     {{ form_start(form, {'attr': {'class': 'space-y-6'}}) }}
 
-    {# Boucle sur chaque champ du formulaire en excluant "progress porcent" #}
     {% for child in form %}
       {% if child.vars.name != 'progress_percent' %}
         <div>

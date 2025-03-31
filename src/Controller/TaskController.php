@@ -25,7 +25,7 @@ final class TaskController extends AbstractController
     }
 
     #[Route("/project/{id}", name: 'app_task_project', methods: ['GET'])]
-    public function taskByProjects(ProjectRepository $projectRepository,TaskRepository $taskRepository, Request $request): Response
+    public function taskByProjects(ProjectRepository $projectRepository, TaskRepository $taskRepository, Request $request): Response
     {
 
         $id = $request->attributes->get('id');
@@ -33,11 +33,11 @@ final class TaskController extends AbstractController
         $project =  $projectRepository->find($id);
         $tasks = $taskRepository->findBy(["associated_project" => $id]);
 
-       
+
 
         return $this->render('task/index.html.twig', [
             'tasks' => $tasks,
-            'project'=> $project,
+            'project' => $project,
             'id' => $id
         ]);
     }
@@ -55,9 +55,9 @@ final class TaskController extends AbstractController
 
         $task->setState($state);
         $task->updateProgressPercentage();
-     
+
         $entityManager->flush();
-        
+
 
         return $this->redirectToRoute('app_task_project', ['id' => $idProject], Response::HTTP_SEE_OTHER);
 
@@ -70,18 +70,23 @@ final class TaskController extends AbstractController
     {
         $task = new Task();
         $id = $request->attributes->get("id");
-        $form = $this->createForm(TaskType::class, $task);
+        // Dans votre contrôleur
+    
+        $form = $this->createForm(TaskType::class, $task, [
+            'current_user' => $this->getUser(),
+        ]);
+
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager->persist($task);
             $entityManager->flush();
 
-            return $this->redirectToRoute('app_task_project', ['id' => $id], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('app_task_project', ['id' => $id,'user' => $this->getUser()], Response::HTTP_SEE_OTHER);
         }
 
         return $this->render('task/new.html.twig', [
-            'id'=>$id,
+            'id' => $id,
             'task' => $task,
             'form' => $form,
         ]);
@@ -102,7 +107,11 @@ final class TaskController extends AbstractController
     #[Route('/{id}/edit', name: 'app_task_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Task $task, EntityManagerInterface $entityManager): Response
     {
-        $form = $this->createForm(TaskType::class, $task);
+        // Dans votre contrôleur
+        $form = $this->createForm(TaskType::class, $task, [
+            'current_user' => $this->getUser(), // ou la méthode adaptée pour récupérer l'utilisateur connecté
+        ]);
+
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {

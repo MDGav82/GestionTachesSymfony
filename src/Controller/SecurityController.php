@@ -3,7 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\User;
-
+use App\Repository\UserRepository;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Doctrine\ORM\EntityManagerInterface;
 use Psr\Log\LoggerInterface;
@@ -13,6 +13,7 @@ use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
@@ -21,13 +22,14 @@ use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 class SecurityController extends AbstractController
 {
     #[Route(path: '/login', name: 'app_login')]
-    public function login(AuthenticationUtils $authenticationUtils, Request $request, SessionInterface $session): Response
+    public function login(SessionInterface $sessionInterface,AuthenticationUtils $authenticationUtils, Request $request, UserRepository $userRepository): Response
     {
         // get the login error if there is one
         $error = $authenticationUtils->getLastAuthenticationError();
 
         // last username entered by the user
         $lastUsername = $authenticationUtils->getLastUsername();
+
 
         // $error = $authenticationUtils->getLastAuthenticationError();
         // $lastUsername = $authenticationUtils->getLastUsername();
