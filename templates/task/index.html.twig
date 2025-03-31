@@ -29,7 +29,7 @@
               <td class="px-5 py-5 border-b border-gray-200 text-sm">
                 <select class="block w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring focus:border-indigo-500"
                         onchange="if(this.value) { window.location.href = this.value; }">
-                  <option value="{{ path('', {'id': task.id, 'state': 'completed'}) }}" {% if task.state == 'pending' %}selected{% endif %}>
+                  <option value="2" {% if task.state == 'pending' %}selected{% endif %}>
                     Pending
                   </option>
                   <option value="1" {% if task.state == 'in_progress' %}selected{% endif %}>
