@@ -7,13 +7,6 @@
   <div class="py-8">
     <h1 class="text-3xl font-bold mb-6">Project index : {{ last_username }}</h1>
 
-    {# {% if app.user %}
-      <div class="mb-3 text-gray-700">
-        You are logged in as {{ app.user.userIdentifier }},
-        <a href="{{ path('app_logout') }}" class="text-indigo-600 hover:text-indigo-900">Logout</a>
-      </div>
-    {% endif %} #}
-
     <div class="overflow-x-auto">
       <table class="min-w-full leading-normal shadow rounded-lg overflow-hidden">
         <thead>
@@ -28,7 +21,7 @@
         </thead>
         <tbody>
           {% for project in projects %}
-            <tr onclick="window.location.href='{{ path('app_task_project', {'id': project.id}) }}'" class="cursor-pointer bg-white hover:bg-gray-100">
+            <tr class="cursor-pointer bg-white hover:bg-gray-100">
               <td class="px-5 py-5 border-b border-gray-200 text-sm">{{ project.id }}</td>
               <td class="px-5 py-5 border-b border-gray-200 text-sm">{{ project.name }}</td>
               <td class="px-5 py-5 border-b border-gray-200 text-sm">{{ project.description }}</td>
@@ -39,8 +32,15 @@
                 {{ project.endDate ? project.endDate|date('Y-m-d H:i:s') : '' }}
               </td>
               <td class="px-5 py-5 border-b border-gray-200 text-sm text-center">
-                <a href="{{ path('app_project_show', {'id': project.id}) }}" class="text-indigo-600 hover:text-indigo-900 mr-2">Show</a>
-                <a href="{{ path('app_project_edit', {'id': project.id}) }}" class="text-indigo-600 hover:text-indigo-900">Edit</a>
+                <a href="{{ path('app_task_project', {'id': project.id}) }}" class="text-indigo-600 hover:text-indigo-900 mr-2">Show</a>
+                <a href="{{ path('app_project_edit', {'id': project.id}) }}" class="text-indigo-600 hover:text-indigo-900 mr-2">Edit</a>
+                <!-- Lien pour supprimer -->
+                <a href="#" class="text-red-600 hover:text-red-900" onclick="event.preventDefault(); document.getElementById('delete-form-{{ project.id }}').submit();">Delete</a>
+
+                <!-- Formulaire de suppression, caché -->
+                <form id="delete-form-{{ project.id }}" action="{{ path('app_project_delete', {'id': project.id}) }}" method="post" style="display: none;">
+                  <input type="hidden" name="csrf_token" value="{{ csrf_token('delete' ~ project.id) }}">
+                </form>
               </td>
             </tr>
           {% else %}
@@ -53,9 +53,16 @@
         </tbody>
       </table>
     </div>
-    <div class="mt-6">
+
+    <div class="mt-6 flex space-x-4">
+      <!-- Create New Project Button -->
       <a href="{{ path('app_project_new') }}" class="bg-indigo-500 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded">
         Create new
+      </a>
+
+      <!-- Logout Button -->
+      <a href="{{ path('app_logout') }}" class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">
+        Logout
       </a>
     </div>
   </div>
