@@ -40,8 +40,8 @@
                 {{ project.endDate ? project.endDate|date('Y-m-d H:i:s') : '' }}
               </td>
               <td class="px-5 py-5 border-b border-gray-200 text-sm text-center">
-                <a href="{{ path('app_project_show', {'id': project.id}) }}" class="text-indigo-600 hover:text-indigo-900 mr-2">Show</a>
-                <a href="{{ path('app_task_project', {'id': project.id}) }}" class="text-indigo-600 hover:text-indigo-900">Edit</a>
+                <a href="{{ path('app_task_project', {'id': project.id}) }}" class="text-indigo-600 hover:text-indigo-900 mr-2">Show</a>
+                <a href="{{ path('app_project_edit', {'id': project.id}) }}" class="text-indigo-600 hover:text-indigo-900">Edit</a>
               </td>
             </tr>
           {% else %}
