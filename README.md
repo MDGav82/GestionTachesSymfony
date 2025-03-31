@@ -7,7 +7,9 @@ Projet PHP utilisant Symphony et Twig
 2. (CODE) changer le DATABASE_URL du .env
 
 php bin/console doctrine:database:create
+
 php bin/console make:migration
+
 php bin/console doctrine:migrations:migrate
 
 4. (CMD) composer install
