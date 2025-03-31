@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Project;
 use App\Form\ProjectType;
 use App\Repository\ProjectRepository;
+use App\Repository\TaskRepository;
 use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -36,7 +37,7 @@ final class ProjectController extends AbstractController
         $user = $userRepository->findOneBy(['email' => $lastUsername]);
         $projects = $user->getProjects();
 
-        
+
         return $this->render('project/index.html.twig', [
             'projects' => $projects,
             'last_username' => $lastUsername,
@@ -91,12 +92,18 @@ final class ProjectController extends AbstractController
     }
 
     #[Route('/{id}', name: 'app_project_delete', methods: ['POST'])]
-    public function delete(Request $request, Project $project, EntityManagerInterface $entityManager): Response
+    public function delete(TaskRepository $taskRepository, Request $request, Project $project, EntityManagerInterface $entityManager): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$project->getId(), $request->getPayload()->getString('_token'))) {
-            $entityManager->remove($project);
-            $entityManager->flush();
+        $id = $request->attributes->get('id');
+
+        $tasks = $taskRepository->findBy(["associated_project" => $id]);
+
+        foreach ($tasks as $task) {
+            $entityManager->remove($task);
         }
+
+        $entityManager->remove($project);
+        $entityManager->flush();
 
         return $this->redirectToRoute('app_project_index', [], Response::HTTP_SEE_OTHER);
     }
