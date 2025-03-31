@@ -7,7 +7,7 @@ dd
 
 admin@example.com : 1234
 
-1. ◇ Créer son compte. -> Quentin  
+1. ◇ Créer son compte. -> Quentin  FAIT UI revoir
 2. ◇ S’authentifier / se déconnecter. -> Quentin Fait
 3. ◇ Créer/Modifier/Supprimer ses tâches. -> Valentin FAIT
 4. ◇ Visualiser la liste des tâches d’un projet. -> Quentin FAIT
