@@ -2,10 +2,10 @@
 Projet PHP utilisant Symphony et Twig
 
 # Mise en place
-git clone
-composer install
-symfony serve
-URL: localhost/login
+1. git clone
+2. composer install
+3. symfony serve
+4. URL: localhost/login
 
 # identifiant
 
